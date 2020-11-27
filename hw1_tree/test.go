@@ -17,13 +17,15 @@ func main() {
 
 func testDirTree(out io.Writer, path string, printFiles bool) (error error)  {
 	files, err := ioutil.ReadDir(path)
+	res := ""
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	for _, file := range files {
 		if file.IsDir() {
-			fmt.Println("├───", file.Name())
+			res = concat(res, "├───" + file.Name())
+			fmt.Println(res)
 			err := testDirTree(os.Stdout, ".", true)
 			if err != nil {
 				log.Fatal(err)
@@ -32,4 +34,8 @@ func testDirTree(out io.Writer, path string, printFiles bool) (error error)  {
 		fmt.Println("├───", file.Name())
 	}
 	return nil
+}
+
+func concat(str, concat string) string  {
+	return str + concat
 }
