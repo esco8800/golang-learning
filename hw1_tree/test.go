@@ -9,7 +9,7 @@ import (
 )
 
 var res string
-var org int = 0
+var ogr int = 0
 
 func main() {
 	err := testDirTree(os.Stdout, "testdata", true)
@@ -65,18 +65,17 @@ func testDirTreeRecursive(out io.Writer, path string, printFiles bool, level, po
 }
 
 func makeByLevelAndPos(level, pos int, name string) {
-	for i := 0; i < level; i++ {
 
-		if org != 0  && org <= i {
+	for i := 0; i < level; i++ {
+		if ogr != 0  && ogr <= i {
 			res = concat(res, "\t")
 		} else {
 			res = concat(res, "|\t")
 		}
-
 	}
 
-	if level == org {
-		org = 0
+	if level == ogr {
+		ogr = 0
 	}
 
 	if pos == 1 {
@@ -84,7 +83,9 @@ func makeByLevelAndPos(level, pos int, name string) {
 	}
 	if pos == 2 {
 		res = concat(res, "└───" + name + "\n")
-		org = level
+		if level < 2 {
+			ogr = level
+		}
 	}
 }
 
